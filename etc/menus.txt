@@ -1,0 +1,81 @@
+# Rcmdr menus for the MAc package
+# When the plug-in is loaded, these menus are merged with the standard Rcmdr menus 
+
+# last modified: 02.12.2010 by AC Del Re
+
+##===================== MAIN MAc MENU ========================##
+
+#type    menu/item      operation/parent    label                              command/menu                activation    			install?
+
+menu    MAcMenu	        topMenu     		""                                   ""                           ""				    ""
+item    topMenu         cascade         	"MAc"                                MAcMenu                      ""			        ""
+
+
+#== Calculate ES ==#   
+
+#type   menu/item      operation/parent  	label                          	 command/menu                activation    				install?
+
+menu  	CalcESMenu		MAcMenu     	""                                     ""                            ""						""
+item    CalcESMenu	    command         "r from chi-squared"        		   r_from_chicmd     		     ""                      "packageAvailable('MAc')"
+item    CalcESMenu	    command         "r from dean difference (d)"           r_from_dcmd				 	 ""                      "packageAvailable('MAc')"
+item    CalcESMenu	    command         "r from mean difference (d) II"        r_from_d1cmd                  ""                      "packageAvailable('MAc')"
+item    CalcESMenu	    command         "r from t-statistic"                   r_from_tcmd                   ""                      "packageAvailable('MAc')"
+item    CalcESMenu      command         "variance of r"                        var_rcmd                      ""                      "packageAvailable('MAc')"
+item    CalcESMenu      command         "r to Fisher's z"                      r_to_zcmd                     ""                      "packageAvailable('MAc')"
+item    CalcESMenu      command         "variance of Fisher's z"               var_zcmd                      ""                      "packageAvailable('MAc')"
+item    MAcMenu         cascade         "calculate ES"           			   CalcESMenu                    ""						""
+
+#== Within-Study Aggregation ==#
+
+#type    menu/item  operation/parent  label                              		command/menu                activation    			install?
+
+menu    AggMenu		MAcMenu     			""                                   "" 			                 ""				   ""
+item    AggMenu	    command         "Meta-Analysis aggregation"        		   	 MetaRcmd 		        	 	 ""                "packageAvailable('MAc') && packageAvailable('plyr')"
+item    AggMenu	    command         "Complete dataset (by moderator(s))"         ComplDatacmd			 		 ""                "packageAvailable('plyr') && packageAvailable('ggplot2')"
+item    MAcMenu     cascade         "Within-study aggregation"            		 AggMenu                     	 ""					""
+
+
+#== Omnibus Analysis ==#
+
+#type    menu/item    operation/parent 		label                         		command/menu                activation    				install?
+
+item    MAcMenu		  command         		"Omnibus analysis"        	  		OmnibusEScmd			          ""                     		"packageAvailable('MAc') && packageAvailable('plyr')"
+
+
+#== Moderator Analysis ==#
+
+#type    menu/item   	operation/parent  label                             		  	command/menu                activation  			  	install?
+
+menu    ModMenu		 	MAcMenu     			""                            		  	""                          ""						""
+item    ModMenu	     	command         "Categoical moderation (fixed)"       			CatModfcmd         			""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+item    ModMenu	 		command         "Categoical moderation (random)"    	  		CatModrcmd 					""                      "packageAvailable('plyr') && packageAvailable('ggplot2')"
+item    ModMenu	 		command         "Homogeneity test: cat mod (fixed)"   	 		CatModfQcmd            	    ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+item    ModMenu	 		command         "Homogeneity test: cat mod (random)" 	 		CatModrQcmd                 ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+item    ModMenu     	command         "Direct comparison: cat mod (fixed)"  	  		CatCompfcmd                 ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+item    ModMenu     	command         "Direct comparison: cat mod (random)" 	  		CatComprcmd                 ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+item    ModMenu     	command         "Single predictor meta-regression"    	  		MAreg1cmd                   ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+item    ModMenu     	command         "Multiple predictor meta-regression"  	  		MAreg2cmd                   ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+item    MAcMenu      	cascade         "Moderator analysis"                 		  	ModMenu                 	""						""
+
+
+#== Graphics ==#
+
+#type    menu/item      operation/parent  label                              		command/menu                activation   				 install?
+
+menu 	GraphMenu		MAcMenu     	""                                     		""                          ""						""
+item    GraphMenu	    command         "Categorical moderator graph"          		CatModGraphcmd       		""                      "packageAvailable('MAc') && packageAvailable('plyr') && packageAvailable('ggplot2')"
+item    GraphMenu	    command         "Forest plot"				           		ForestPlotcmd 				""                      "packageAvailable('MAc') && packageAvailable('plyr') && packageAvailable('ggplot2')"
+item    GraphMenu	    command         "Funnel plot"       				   		FunnelPlotcmd               ""                      "packageAvailable('MAc') && packageAvailable('ggplot2')"
+item    GraphMenu	    command         "Meta-regression graph"                		MAregGraphcmd               ""                      "packageAvailable('MAc') && packageAvailable('ggplot2')"
+item    GraphMenu       command         "Multiple predictor moderator graph"  		MultiModGraphcmd            ""                      "packageAvailable('MAc') && packageAvailable('ggplot2')"
+item    MAcMenu         cascade         "Graphics"           				   		GraphMenu                   ""						""
+
+
+##== Other ==##
+
+menu 	OtherMenu		MAcMenu     	""                                    		 ""                         ""						""
+item    OtherMenu	    command         "Correction for attenuation"           		CorAttencmd         			""                  "packageAvailable('MAc')"
+item    OtherMenu       command         "Reliability: Kappa (cat. data)"   	        Kappacmd                    ""                      "packageAvailable('MAc')"
+item    MAcMenu         cascade         "Other functions"      				   	    OtherMenu                   ""						""
+
+      
