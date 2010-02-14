@@ -4,6 +4,7 @@
 
 
 .packageName <- "RcmdrPlugin.MAc"
+
 .First.lib <- function(libname, pkgname){
 if (!interactive()) return()
 Rcmdr <- options()$Rcmdr
