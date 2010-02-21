@@ -377,11 +377,11 @@ MetaRcmd <- function(){
 # ComplData function  # 02.10.10 need to update MAc (1.0.2) package*
 
 ComplDatacmd <- function(){
-  initializeDialog(title=gettextRcmdr("Complete Dataset (by Moderator(s))"))
+  initializeDialog(title=gettextRcmdr("Complete Dataset"))
   variablesFrame <- tkframe(top)
   .variable <- Variables()
   xBox <- variableListBox(variablesFrame, .variable, selectmode="multiple",
-            title=gettextRcmdr("variables for complete data (pick one or more)"))
+            title=gettextRcmdr("variables for complete data (pick one)"))
   UpdateModelNumber()
   modelName <- tclVar(paste("data.", getRcmdr("modelNumber"), sep=""))
   modelFrame <- tkframe(top)
@@ -403,16 +403,17 @@ ComplDatacmd <- function(){
        }
        meta <- ActiveDataSet()
        modelN <- as.character(tclvalue(modelNVariable)) 
-       command <- paste("ComplData(", meta, ", ", paste(x, collapse=","),
-                        ", predictors= '",modelN,"')", sep="")
-        logger(paste(modelValue, " <- ", command, sep=""))
-        assign(modelValue, justDoIt(command), envir=.GlobalEnv)
-        doItAndPrint(modelValue)
-        tkfocus(CommanderWindow())
+       #command <- paste("ComplData(", meta, ", ", paste(x, collapse=","),
+       #                 ", predictors= '",modelN,"')", sep="")
+       command <- paste("ComplData(", meta, ",", meta, "$", x, ")", sep="")
+       logger(paste(modelValue, " <- ", command, sep=""))
+       assign(modelValue, justDoIt(command), envir=.GlobalEnv)
+       doItAndPrint(modelValue)
+       tkfocus(CommanderWindow())
   }
   OKCancelHelp(helpSubject="ComplData", model=TRUE)
-  radioButtons(name="modelN", buttons=c("One", "Two","Three","Four","Five"), values=c("1", "2","3","4","5"),  # 
-               labels=gettextRcmdr(c("One", "Two","Three","Four","Five")), title=gettextRcmdr("Variables to reduce by:"))
+  #radioButtons(name="modelN", buttons=c("One", "Two","Three","Four","Five"), values=c("1", "2","3","4","5"),  # 
+  #             labels=gettextRcmdr(c("One", "Two","Three","Four","Five")), title=gettextRcmdr("Variables to reduce by:"))
   tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), model, sticky="w")
   tkgrid(modelFrame, sticky="w")
   tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
@@ -465,10 +466,10 @@ OmnibusEScmd <- function(){
 
 ##==== Moderator ====#
 
-# CatModf function
+# CatMod function
 
-CatModfcmd <- function(){
-  initializeDialog(title=gettextRcmdr("Categorical Moderation (Fixed)"))
+CatModcmd <- function(){
+  initializeDialog(title=gettextRcmdr("Categorical Moderation"))
   variablesFrame <- tkframe(top)
   UpdateModelNumber()
   modelName <- tclVar(paste("moddata.", getRcmdr("modelNumber"), sep=""))
@@ -480,7 +481,7 @@ CatModfcmd <- function(){
   onOK <- function(){
     x <- getSelection(xBox)
     if (length(x) == 0){
-      errorCondition(recall=CatModfcmd, message=gettextRcmdr("You must select one or more variables."))
+      errorCondition(recall=CatModcmd, message=gettextRcmdr("You must select one variable."))
       return()
     }
     modelValue <- trim.blanks(tclvalue(modelName))
@@ -491,13 +492,13 @@ CatModfcmd <- function(){
     }     
     closeDialog()
     meta <- ActiveDataSet()
-    command <- paste("CatModf(", meta, ",", meta, "$", x, ")", sep="")
+    command <- paste("CatMod(", meta, ",", meta, "$", x, ")", sep="")
     logger(paste(modelValue, " <- ", command, sep=""))
     assign(modelValue, justDoIt(command), envir=.GlobalEnv)
     doItAndPrint(modelValue)
     tkfocus(CommanderWindow())
   }
-  OKCancelHelp(helpSubject="CatModf")
+  OKCancelHelp(helpSubject="CatMod")
   tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), model, sticky="w")
   tkgrid(modelFrame, sticky="w")
   tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
@@ -509,135 +510,198 @@ CatModfcmd <- function(){
 
 # CatModr
 
-CatModrcmd <- function(){
-  initializeDialog(title=gettextRcmdr("Categorical Moderation (Random)"))
-  variablesFrame <- tkframe(top)
-  UpdateModelNumber()
-  modelName <- tclVar(paste("moddata.", getRcmdr("modelNumber"), sep=""))
-  modelFrame <- tkframe(top)
-  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
-  subsetBox()
-  .factor <- Factors()
-  xBox <- variableListBox(top, .factor, title=gettextRcmdr("moderator variables (pick one)"))
-  onOK <- function(){
-    x <- getSelection(xBox)
-      if (length(x) == 0){
-        errorCondition(recall=CatModrcmd, message=gettextRcmdr("You must select one or more variables."))
-        return()
-      }
-      modelValue <- trim.blanks(tclvalue(modelName))
-        if (!is.valid.name(modelValue)){
-          UpdateModelNumber(-1)
-          errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
-          return()
-      }
-      closeDialog()
-      meta <- ActiveDataSet()
-      command <- paste("CatModr(", meta, ",", meta, "$", x, ")", sep="")
-      logger(paste(modelValue, " <- ", command, sep=""))
-      assign(modelValue, justDoIt(command), envir=.GlobalEnv)
-      doItAndPrint(modelValue)
-      tkfocus(CommanderWindow())
-  }
-  OKCancelHelp(helpSubject="CatModr")
-  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), model, sticky="w")
-  tkgrid(modelFrame, sticky="w")
-  tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
-  tkgrid(variablesFrame, sticky="w")
-  tkgrid(buttonsFrame, stick="w")
-  tkgrid.configure(helpButton, sticky="e")
-  dialogSuffix(rows=4, columns=2)
-}
+#CatModrcmd <- function(){
+#  initializeDialog(title=gettextRcmdr("Categorical Moderation (Random)"))
+#  variablesFrame <- tkframe(top)
+#  UpdateModelNumber()
+#  modelName <- tclVar(paste("moddata.", getRcmdr("modelNumber"), sep=""))
+#  modelFrame <- tkframe(top)
+#  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
+#  subsetBox()
+#  .factor <- Factors()
+#  xBox <- variableListBox(top, .factor, title=gettextRcmdr("moderator variables (pick one)"))
+#  onOK <- function(){
+#    x <- getSelection(xBox)
+#      if (length(x) == 0){
+#        errorCondition(recall=CatModrcmd, message=gettextRcmdr("You must select one or more variables."))
+#        return()
+#      }
+#      modelValue <- trim.blanks(tclvalue(modelName))
+#        if (!is.valid.name(modelValue)){
+#          UpdateModelNumber(-1)
+#          errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+#          return()
+#      }
+#      closeDialog()
+#      meta <- ActiveDataSet()
+#      command <- paste("CatModr(", meta, ",", meta, "$", x, ")", sep="")
+#      logger(paste(modelValue, " <- ", command, sep=""))
+#      assign(modelValue, justDoIt(command), envir=.GlobalEnv)
+#      doItAndPrint(modelValue)
+#      tkfocus(CommanderWindow())
+#  }
+#  OKCancelHelp(helpSubject="CatModr")
+#  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), model, sticky="w")
+#  tkgrid(modelFrame, sticky="w")
+#  tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
+#  tkgrid(variablesFrame, sticky="w")
+#  tkgrid(buttonsFrame, stick="w")
+#  tkgrid.configure(helpButton, sticky="e")
+#  dialogSuffix(rows=4, columns=2)
+#}
 
 #CatModfQ
 
-CatModfQcmd <- function(){
-  initializeDialog(title=gettextRcmdr("Categorical Moderator Q-test (Fixed)"))
-  variablesFrame <- tkframe(top)
-  UpdateModelNumber()
-  modelName <- tclVar(paste("moddata.", getRcmdr("modelNumber"), sep=""))
-  modelFrame <- tkframe(top)
-  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
-  subsetBox()
-  .factor <- Factors()
-  xBox <- variableListBox(top, .factor, title=gettextRcmdr("moderator variables (pick one)"))
-  onOK <- function(){
-    x <- getSelection(xBox)
-      if (length(x) == 0){
-        errorCondition(recall=CatModfQcmd, message=gettextRcmdr("You must select one or more variables."))
-        return()
-    }
-    modelValue <- trim.blanks(tclvalue(modelName))
-      if (!is.valid.name(modelValue)){
-        UpdateModelNumber(-1)
-        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
-        return()
-    }      
-    closeDialog()
-    meta <- ActiveDataSet()
-    command <- paste("CatModfQ(", meta, ",", meta, "$", x, ")", sep="")
-    logger(paste(modelValue, " <- ", command, sep=""))
-    assign(modelValue, justDoIt(command), envir=.GlobalEnv)
-    doItAndPrint(modelValue)
-    tkfocus(CommanderWindow())
-  }
-  OKCancelHelp(helpSubject="CatModfQ")
-  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), model, sticky="w")
-  tkgrid(modelFrame, sticky="w")
-  tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
-  tkgrid(variablesFrame, sticky="w")
-  tkgrid(buttonsFrame, stick="w")
-  tkgrid.configure(helpButton, sticky="e")
-  dialogSuffix(rows=4, columns=2)
-}
+#CatModfQcmd <- function(){
+#  initializeDialog(title=gettextRcmdr("Categorical Moderator Q-test (Fixed)"))
+#  variablesFrame <- tkframe(top)
+#  UpdateModelNumber()
+#  modelName <- tclVar(paste("moddata.", getRcmdr("modelNumber"), sep=""))
+#  modelFrame <- tkframe(top)
+#  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
+#  subsetBox()
+#  .factor <- Factors()
+#  xBox <- variableListBox(top, .factor, title=gettextRcmdr("moderator variables (pick one)"))
+# onOK <- function(){
+#   x <- getSelection(xBox)
+#     if (length(x) == 0){
+#       errorCondition(recall=CatModfQcmd, message=gettextRcmdr("You must select one or more variables."))
+#       return()
+#    }
+#    modelValue <- trim.blanks(tclvalue(modelName))
+#      if (!is.valid.name(modelValue)){
+#        UpdateModelNumber(-1)
+#        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+#        return()
+#    }      
+#    closeDialog()
+#   meta <- ActiveDataSet()
+#    command <- paste("CatModfQ(", meta, ",", meta, "$", x, ")", sep="")
+#    logger(paste(modelValue, " <- ", command, sep=""))
+#    assign(modelValue, justDoIt(command), envir=.GlobalEnv)
+#    doItAndPrint(modelValue)
+#    tkfocus(CommanderWindow())
+#  }
+#  OKCancelHelp(helpSubject="CatModfQ")
+#  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), model, sticky="w")
+#  tkgrid(modelFrame, sticky="w")
+#  tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
+#  tkgrid(variablesFrame, sticky="w")
+#  tkgrid(buttonsFrame, stick="w")
+#  tkgrid.configure(helpButton, sticky="e")
+#  dialogSuffix(rows=4, columns=2)
+#}
 
 #CatModrQ
 
-CatModrQcmd <- function(){
-  initializeDialog(title=gettextRcmdr("Categorical Moderator Q-test (Random)"))
-  variablesFrame <- tkframe(top)
-  UpdateModelNumber()
-  modelName <- tclVar(paste("moddata.", getRcmdr("modelNumber"), sep=""))
-  modelFrame <- tkframe(top)
-  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
-  subsetBox()
-  .factor <- Factors()
-  xBox <- variableListBox(top, .factor, title=gettextRcmdr("moderator variables (pick one)"))
-  onOK <- function(){
-    x <- getSelection(xBox)
-    # y <- getSelection(yBox)
-      if (length(x) == 0){
-        errorCondition(recall=CatModrQcmd, message=gettextRcmdr("You must select one or more variables."))
-        return()
-    }
-    modelValue <- trim.blanks(tclvalue(modelName))
-      if (!is.valid.name(modelValue)){
-        UpdateModelNumber(-1)
-        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
-        return()
-    }     
-    closeDialog()
-    meta <- ActiveDataSet()
-    command <- paste("CatModrQ(", meta, ",", meta, "$", x, ")", sep="")
-    logger(paste(modelValue, " <- ", command, sep=""))
-    assign(modelValue, justDoIt(command), envir=.GlobalEnv)
-    doItAndPrint(modelValue)
-    tkfocus(CommanderWindow())
-  }
-  OKCancelHelp(helpSubject="CatModrQ")
-  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), model, sticky="w")
-  tkgrid(modelFrame, sticky="w")
-  tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
-  tkgrid(variablesFrame, sticky="w")
-  tkgrid(buttonsFrame, stick="w")
-  tkgrid.configure(helpButton, sticky="e")
-  dialogSuffix(rows=4, columns=2)
-}
+#CatModrQcmd <- function(){
+#  initializeDialog(title=gettextRcmdr("Categorical Moderator Q-test (Random)"))
+#  variablesFrame <- tkframe(top)
+#  UpdateModelNumber()
+#  modelName <- tclVar(paste("moddata.", getRcmdr("modelNumber"), sep=""))
+#  modelFrame <- tkframe(top)
+#  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
+#  subsetBox()
+#  .factor <- Factors()
+#  xBox <- variableListBox(top, .factor, title=gettextRcmdr("moderator variables (pick one)"))
+#  onOK <- function(){
+#    x <- getSelection(xBox)
+#    # y <- getSelection(yBox)
+#      if (length(x) == 0){
+#        errorCondition(recall=CatModrQcmd, message=gettextRcmdr("You must select one or more variables."))
+#        return()
+#    }
+#    modelValue <- trim.blanks(tclvalue(modelName))
+#      if (!is.valid.name(modelValue)){
+#        UpdateModelNumber(-1)
+#        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+#        return()
+#    }     
+#    closeDialog()
+#    meta <- ActiveDataSet()
+#    command <- paste("CatModrQ(", meta, ",", meta, "$", x, ")", sep="")
+#    logger(paste(modelValue, " <- ", command, sep=""))
+#    assign(modelValue, justDoIt(command), envir=.GlobalEnv)
+#    doItAndPrint(modelValue)
+#    tkfocus(CommanderWindow())
+#  }
+#  OKCancelHelp(helpSubject="CatModrQ")
+#  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), model, sticky="w")
+#  tkgrid(modelFrame, sticky="w")
+#  tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
+#  tkgrid(variablesFrame, sticky="w")
+# tkgrid(buttonsFrame, stick="w")
+#  tkgrid.configure(helpButton, sticky="e")
+#  dialogSuffix(rows=4, columns=2)
+#}
 
 #CatCompf
 
-CatCompfcmd <- function(){
-  initializeDialog(title=gettextRcmdr("Direct Categorical Moderator Comparison (Fixed)"))
+#CatCompfcmd <- function(){
+#  initializeDialog(title=gettextRcmdr("Direct Categorical Moderator Comparison (Fixed)"))
+#  variablesFrame <- tkframe(top)
+#  .factor <- Factors()
+#  yBox <- variableListBox(variablesFrame, .factor, title=gettextRcmdr("moderator variable (pick one)"))
+#  UpdateModelNumber()
+#  modelName <- tclVar(paste("modcompdata.", getRcmdr("modelNumber"), sep=""))
+#  modelFrame <- tkframe(top)
+#  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
+#  subsetBox()
+#  onOK <- function(){
+#    y <- getSelection(yBox)
+#    closeDialog()
+#      if (0 == length(y)) {
+#        UpdateModelNumber(-1)
+#        errorCondition(recall=CatCompfcmd, message=gettextRcmdr("You must select a moderator variable."))
+#        return()
+#    }
+#    modelValue <- trim.blanks(tclvalue(modelName))
+#      if (!is.valid.name(modelValue)){
+#        UpdateModelNumber(-1)
+#        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+#        return()
+#    }
+#    meta <- ActiveDataSet()
+#    modelN <- as.character(tclvalue(modelNVariable)) 
+#    modelC1 <- as.character(tclvalue(modelC1Variable)) 
+#    modelC2 <- as.character(tclvalue(modelC2Variable))
+#    command <- paste("CatCompf(", meta, ", ", paste(y, collapse=","),
+#                     ", ",modelC1,", ",modelC2,", method= '",modelN,"')", sep="")
+#    logger(paste(modelValue, " <- ", command, sep=""))
+#    assign(modelValue, justDoIt(command), envir=.GlobalEnv)
+#    doItAndPrint(modelValue)
+#     tkfocus(CommanderWindow())
+#  }
+#  OKCancelHelp(helpSubject="CatCompf", model=TRUE)
+#  radioButtons(name="modelN", buttons=c("post.hoc", "planned"), 
+#               values=c("post.hoc", "planned"),   
+#               labels=gettextRcmdr(c("post.hoc", "planned")), 
+#               title=gettextRcmdr("method"))
+#  radioButtons(name="modelC1", buttons=c("one", "two", "three","four", "five","six"),
+#               values=c("1", "2", "3","4", "5","6"),   
+#               labels=gettextRcmdr(c("one", "two", "three","four", "five","six")), 
+#               title=gettextRcmdr("choose 1st levels of factor to compare"))    
+#  radioButtons(name="modelC2", buttons=c("one", "two", "three","four", "five","six"),
+#               values=c("1", "2", "3","4", "5","6"),   
+#               labels=gettextRcmdr(c("one", "two", "three","four", "five","six")),
+#                title=gettextRcmdr("choose 2nd levels of factor to compare"))    
+#  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), 
+#         model, sticky="w")
+#  tkgrid(modelFrame, sticky="w")
+#  tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(yBox), sticky="nw")
+#  tkgrid(modelNFrame, sticky="w")
+#  tkgrid(modelC1Frame, sticky="w")
+#  tkgrid(modelC2Frame, sticky="w")
+#  tkgrid(variablesFrame, sticky="w")
+#  tkgrid(buttonsFrame, stick="w")
+#  tkgrid.configure(helpButton, sticky="e")
+#  dialogSuffix(rows=4, columns=2)
+#}
+
+#CatComp
+
+CatCompcmd <- function(){
+  initializeDialog(title=gettextRcmdr("Direct Categorical Moderator Comparison"))
   variablesFrame <- tkframe(top)
   .factor <- Factors()
   yBox <- variableListBox(variablesFrame, .factor, title=gettextRcmdr("moderator variable (pick one)"))
@@ -651,7 +715,7 @@ CatCompfcmd <- function(){
     closeDialog()
       if (0 == length(y)) {
         UpdateModelNumber(-1)
-        errorCondition(recall=CatCompfcmd, message=gettextRcmdr("You must select a moderator variable."))
+        errorCondition(recall=CatCompcmd, message=gettextRcmdr("You must select a moderator variable."))
         return()
     }
     modelValue <- trim.blanks(tclvalue(modelName))
@@ -664,77 +728,14 @@ CatCompfcmd <- function(){
     modelN <- as.character(tclvalue(modelNVariable)) 
     modelC1 <- as.character(tclvalue(modelC1Variable)) 
     modelC2 <- as.character(tclvalue(modelC2Variable))
-    command <- paste("CatCompf(", meta, ", ", paste(y, collapse=","),
-                     ", ",modelC1,", ",modelC2,", method= '",modelN,"')", sep="")
-    logger(paste(modelValue, " <- ", command, sep=""))
-    assign(modelValue, justDoIt(command), envir=.GlobalEnv)
-    doItAndPrint(modelValue)
-     tkfocus(CommanderWindow())
-  }
-  OKCancelHelp(helpSubject="CatCompf", model=TRUE)
-  radioButtons(name="modelN", buttons=c("post.hoc", "planned"), 
-               values=c("post.hoc", "planned"),   
-               labels=gettextRcmdr(c("post.hoc", "planned")), 
-               title=gettextRcmdr("method"))
-  radioButtons(name="modelC1", buttons=c("one", "two", "three","four", "five","six"),
-               values=c("1", "2", "3","4", "5","6"),   
-               labels=gettextRcmdr(c("one", "two", "three","four", "five","six")), 
-               title=gettextRcmdr("choose 1st levels of factor to compare"))    
-  radioButtons(name="modelC2", buttons=c("one", "two", "three","four", "five","six"),
-               values=c("1", "2", "3","4", "5","6"),   
-               labels=gettextRcmdr(c("one", "two", "three","four", "five","six")),
-                title=gettextRcmdr("choose 2nd levels of factor to compare"))    
-  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), 
-         model, sticky="w")
-  tkgrid(modelFrame, sticky="w")
-  tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(yBox), sticky="nw")
-  tkgrid(modelNFrame, sticky="w")
-  tkgrid(modelC1Frame, sticky="w")
-  tkgrid(modelC2Frame, sticky="w")
-  tkgrid(variablesFrame, sticky="w")
-  tkgrid(buttonsFrame, stick="w")
-  tkgrid.configure(helpButton, sticky="e")
-  dialogSuffix(rows=4, columns=2)
-}
-
-#CatCompr
-
-CatComprcmd <- function(){
-  initializeDialog(title=gettextRcmdr("Direct Categorical Moderator Comparison (Random)"))
-  variablesFrame <- tkframe(top)
-  .factor <- Factors()
-  yBox <- variableListBox(variablesFrame, .factor, title=gettextRcmdr("moderator variable (pick one)"))
-  UpdateModelNumber()
-  modelName <- tclVar(paste("modcompdata.", getRcmdr("modelNumber"), sep=""))
-  modelFrame <- tkframe(top)
-  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
-  subsetBox()
-  onOK <- function(){
-    y <- getSelection(yBox)
-    closeDialog()
-      if (0 == length(y)) {
-        UpdateModelNumber(-1)
-        errorCondition(recall=CatComprcmd, message=gettextRcmdr("You must select a moderator variable."))
-        return()
-    }
-    modelValue <- trim.blanks(tclvalue(modelName))
-      if (!is.valid.name(modelValue)){
-        UpdateModelNumber(-1)
-        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
-        return()
-    }
-    meta <- ActiveDataSet()
-    modelN <- as.character(tclvalue(modelNVariable)) 
-    modelC1 <- as.character(tclvalue(modelC1Variable)) 
-    modelC2 <- as.character(tclvalue(modelC2Variable))
-    command <- paste("CatCompr(", meta, ", ", paste(y, collapse=","),
+    command <- paste("CatComp(", meta, ", ", paste(y, collapse=","),
                      ", ",modelC1,", ",modelC2,", method= '",modelN,"')", sep="")
     logger(paste(modelValue, " <- ", command, sep=""))
     assign(modelValue, justDoIt(command), envir=.GlobalEnv)
     doItAndPrint(modelValue)
     tkfocus(CommanderWindow())
   }
-  OKCancelHelp(helpSubject="CatCompr", model=TRUE)
+  OKCancelHelp(helpSubject="CatComp", model=TRUE)
   radioButtons(name="modelN", buttons=c("post.hoc", "planned"), values=c("post.hoc", "planned"),   
                labels=gettextRcmdr(c("post.hoc", "planned")), title=gettextRcmdr("method"))
   radioButtons(name="modelC1", buttons=c("one", "two", "three","four", "five","six"), 

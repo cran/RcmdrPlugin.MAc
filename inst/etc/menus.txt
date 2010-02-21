@@ -31,7 +31,7 @@ item    MAcMenu         cascade         "calculate ES"           			   CalcESMen
 
 menu    AggMenu		MAcMenu     			""                                   "" 			                 ""				   ""
 item    AggMenu	    command         "Meta-Analysis aggregation"        		   	 MetaRcmd 		        	 	 ""                "packageAvailable('MAc') && packageAvailable('plyr')"
-item    AggMenu	    command         "Complete dataset (by moderator(s))"         ComplDatacmd			 		 ""                "packageAvailable('plyr') && packageAvailable('ggplot2')"
+item    AggMenu	    command         "Complete dataset"					         ComplDatacmd			 		 ""                "packageAvailable('plyr') && packageAvailable('ggplot2')"
 item    MAcMenu     cascade         "Within-study aggregation"            		 AggMenu                     	 ""					""
 
 
@@ -47,12 +47,12 @@ item    MAcMenu		  command         		"Omnibus analysis"        	  		OmnibusEScmd
 #type    menu/item   	operation/parent  label                             		  	command/menu                activation  			  	install?
 
 menu    ModMenu		 	MAcMenu     			""                            		  	""                          ""						""
-item    ModMenu	     	command         "Categoical moderation (fixed)"       			CatModfcmd         			""                      "packageAvailable('MAc') && packageAvailable('plyr')"
-item    ModMenu	 		command         "Categoical moderation (random)"    	  		CatModrcmd 					""                      "packageAvailable('plyr') && packageAvailable('ggplot2')"
-item    ModMenu	 		command         "Homogeneity test: cat mod (fixed)"   	 		CatModfQcmd            	    ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
-item    ModMenu	 		command         "Homogeneity test: cat mod (random)" 	 		CatModrQcmd                 ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
-item    ModMenu     	command         "Direct comparison: cat mod (fixed)"  	  		CatCompfcmd                 ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
-item    ModMenu     	command         "Direct comparison: cat mod (random)" 	  		CatComprcmd                 ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+item    ModMenu	     	command         "Categoical moderation"       					CatModcmd         			""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+#item   ModMenu	 		command         "Categoical moderation (random)"    	  		CatModrcmd 					""                      "packageAvailable('plyr') && packageAvailable('ggplot2')"
+#item   ModMenu	 		command         "Homogeneity test: cat mod (fixed)"   	 		CatModfQcmd            	    ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+#item   ModMenu	 		command         "Homogeneity test: cat mod (random)" 	 		CatModrQcmd                 ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+#item   ModMenu     	command         "Direct comparison: cat mod (fixed)"  	  		CatCompfcmd                 ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
+item    ModMenu     	command         "Direct comparison: cat mod"		 	  		CatCompcmd                 ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
 item    ModMenu     	command         "Single predictor meta-regression"    	  		MAreg1cmd                   ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
 item    ModMenu     	command         "Multiple predictor meta-regression"  	  		MAreg2cmd                   ""                      "packageAvailable('MAc') && packageAvailable('plyr')"
 item    MAcMenu      	cascade         "Moderator analysis"                 		  	ModMenu                 	""						""
@@ -75,7 +75,7 @@ item    MAcMenu         cascade         "Graphics"           				   		GraphMenu 
 
 menu 	OtherMenu		MAcMenu     	""                                    		 ""                         ""						""
 item    OtherMenu	    command         "Correction for attenuation"           		CorAttencmd         			""                  "packageAvailable('MAc')"
-item    OtherMenu       command         "Reliability: Kappa (cat. data)"   	        Kappacmd                    ""                      "packageAvailable('MAc')"
+item    OtherMenu       command         "Agreement: Kappa (cat. data)"   	        Kappacmd                    ""                      "packageAvailable('MAc')"
 item    MAcMenu         cascade         "Other functions"      				   	    OtherMenu                   ""						""
 
       
