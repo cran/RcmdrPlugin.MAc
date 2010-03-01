@@ -355,7 +355,7 @@ MetaRcmd <- function(){
   modelValue <- trim.blanks(tclvalue(modelName))
     if (!is.valid.name(modelValue)){
       UpdateModelNumber(-1)
-      errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+      errorCondition(recall=MetaRcmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
       return()
   }
   meta <- ActiveDataSet()
@@ -403,17 +403,17 @@ ComplDatacmd <- function(){
        }
        meta <- ActiveDataSet()
        modelN <- as.character(tclvalue(modelNVariable)) 
-       #command <- paste("ComplData(", meta, ", ", paste(x, collapse=","),
-       #                 ", predictors= '",modelN,"')", sep="")
-       command <- paste("ComplData(", meta, ",", meta, "$", x, ")", sep="")
+       command <- paste("ComplData(", meta, ", ", paste(x, collapse=","),
+                        ", type= '",modelN,"')", sep="")
+       #command <- paste("ComplData(", meta, ",", meta, "$", x, ")", sep="")
        logger(paste(modelValue, " <- ", command, sep=""))
        assign(modelValue, justDoIt(command), envir=.GlobalEnv)
        doItAndPrint(modelValue)
        tkfocus(CommanderWindow())
   }
   OKCancelHelp(helpSubject="ComplData", model=TRUE)
-  #radioButtons(name="modelN", buttons=c("One", "Two","Three","Four","Five"), values=c("1", "2","3","4","5"),  # 
-  #             labels=gettextRcmdr(c("One", "Two","Three","Four","Five")), title=gettextRcmdr("Variables to reduce by:"))
+  radioButtons(name="modelN", buttons=c("independent", "dependent"), values=c("independent", "dependent"),   
+               labels=gettextRcmdr(c("independent", "dependent")), title=gettextRcmdr("Type of aggregation:"))
   tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for model:")), model, sticky="w")
   tkgrid(modelFrame, sticky="w")
   tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
@@ -487,7 +487,7 @@ CatModcmd <- function(){
     modelValue <- trim.blanks(tclvalue(modelName))
     if (!is.valid.name(modelValue)){
       UpdateModelNumber(-1)
-      errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+      errorCondition(recall=CatModcmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
       return()
     }     
     closeDialog()
@@ -529,7 +529,7 @@ CatModcmd <- function(){
 #      modelValue <- trim.blanks(tclvalue(modelName))
 #        if (!is.valid.name(modelValue)){
 #          UpdateModelNumber(-1)
-#          errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+#          errorCondition(recall=CatModrcmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
 #          return()
 #      }
 #      closeDialog()
@@ -571,7 +571,7 @@ CatModcmd <- function(){
 #    modelValue <- trim.blanks(tclvalue(modelName))
 #      if (!is.valid.name(modelValue)){
 #        UpdateModelNumber(-1)
-#        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+#        errorCondition(recall=CatModfcmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
 #        return()
 #    }      
 #    closeDialog()
@@ -614,7 +614,7 @@ CatModcmd <- function(){
 #    modelValue <- trim.blanks(tclvalue(modelName))
 #      if (!is.valid.name(modelValue)){
 #        UpdateModelNumber(-1)
-#        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+#        errorCondition(recall=CatModrcmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
 #        return()
 #    }     
 #    closeDialog()
@@ -658,7 +658,7 @@ CatModcmd <- function(){
 #    modelValue <- trim.blanks(tclvalue(modelName))
 #      if (!is.valid.name(modelValue)){
 #        UpdateModelNumber(-1)
-#        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+#        errorCondition(recall=CatCompfcmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
 #        return()
 #    }
 #    meta <- ActiveDataSet()
@@ -721,7 +721,7 @@ CatCompcmd <- function(){
     modelValue <- trim.blanks(tclvalue(modelName))
       if (!is.valid.name(modelValue)){
         UpdateModelNumber(-1)
-        errorCondition(recall=ComplDatacmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+        errorCondition(recall=CatCompcmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
         return()
     }
     meta <- ActiveDataSet()
@@ -736,8 +736,8 @@ CatCompcmd <- function(){
     tkfocus(CommanderWindow())
   }
   OKCancelHelp(helpSubject="CatComp", model=TRUE)
-  radioButtons(name="modelN", buttons=c("post.hoc", "planned"), values=c("post.hoc", "planned"),   
-               labels=gettextRcmdr(c("post.hoc", "planned")), title=gettextRcmdr("method"))
+  radioButtons(name="modelN", buttons=c("post.hoc1", "post.hoc2","planned"), values=c("post.hoc1", "post.hoc2","planned"),   
+               labels=gettextRcmdr(c("post.hoc: HSD", "post.hoc: Scheffe", "planned")), title=gettextRcmdr("method"))
   radioButtons(name="modelC1", buttons=c("one", "two", "three","four", "five","six"), 
                values=c("1", "2", "3","4", "5","6"),   
                labels=gettextRcmdr(c("one", "two", "three","four", "five","six")),
@@ -1250,3 +1250,4 @@ Kappacmd <- function(){
   tkgrid(variablesFrame, sticky="w")
   dialogSuffix(rows=8, columns=2)
 }
+
