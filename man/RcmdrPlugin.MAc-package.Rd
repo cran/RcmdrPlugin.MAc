@@ -7,18 +7,18 @@
 \tabular{ll}{
 Package: \tab RcmdrPlugin.MAc-package\cr
 Type: \tab Package\cr
-Version: \tab 1.0.5\cr
-Date: \tab 2010-03-01\cr
+Version: \tab 1.0.6\cr
+Date: \tab 2010-03-12\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
 
 }
-\author{AC Del Re & William T. Hoyt
+\author{AC Del Re 
 
 Maintainer: AC Del Re <acdelre@gmail.com>
 }
-\references{ AC Del Re & William T. Hoyt (2010). \emph{MAc: Meta-Analysis with Correlations}. R package version 1.0.5.
+\references{ AC Del Re & William T. Hoyt (2010). \emph{MAc: Meta-Analysis with Correlations}. R package version 1.0.6.
   http://CRAN.R-project.org/package=MAc
  
 }
@@ -34,9 +34,9 @@ Maintainer: AC Del Re <acdelre@gmail.com>
 # 2.  Import the worksheet or data into R:
 # 2a. Save main data file (excel or spss) to a .csv file (e.g., see save options in
 #     Excel)
-# 2b. Import the .csv data file using setwd() with all relevant meta data into R by 
-#     setting the R working directory to the location of your .csv data file. e.g., 
-#     at the R command prompt type: setwd("C:/Users/Desktop/R")
+# 2b. Import the .csv data file using setwd() by setting the R working directory to the
+#     location of your .csv data file. e.g., at the R command prompt, type:
+#     setwd("C:/Users/Desktop/R")
 #     Or, if preferred, use the R menu: File --> Change Dir --> (location of .csv file) 
 # 2c. Then, use a similar command to import the data:
 #     mydata <- read.csv("MetaData.csv", header=TRUE,na.strings="") 
@@ -67,4 +67,6 @@ Maintainer: AC Del Re <acdelre@gmail.com>
 \keyword{ package }
 \seealso{
 \bold{MAc} package:  \url{http://CRAN.R-project.org/package=MAc}
+\bold{MAd} package:  \url{http://CRAN.R-project.org/package=MAd}
+\bold{MAd} package:  \url{http://CRAN.R-project.org/package=RcmdrPlugin.MAd}
 }

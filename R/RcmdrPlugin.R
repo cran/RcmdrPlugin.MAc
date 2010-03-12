@@ -17,6 +17,1156 @@ Commander()
 }
 }
 
+#== New Functions (3.07.10) ==##
+
+# ancova to d1
+
+ancova_to_d1cmd <- function(){
+  initializeDialog(title=gettextRcmdr("ancova to mean diff (adj. SD)"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("adj. tmt grp mean (ANCOVA)"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  conVar <- tclVar(gettextRcmdr(" "))
+  conFrame <- tkframe(labelsFrame)
+  conEntry <- ttkentry(conFrame, width="8", textvariable=conVar)
+  tkgrid(labelRcmdr(conFrame, text=gettextRcmdr("adj comp grp mean (ANCOVA)"), fg="blue"), sticky="w")
+  tkgrid(conEntry, sticky="w")
+  tkgrid(conFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  sdVar <- tclVar(gettextRcmdr(" "))
+  sdFrame <- tkframe(labelsFrame)
+  sdEntry <- ttkentry(sdFrame, width="8", textvariable=sdVar)
+  tkgrid(labelRcmdr(sdFrame, text=gettextRcmdr("adj SD"), fg="blue"), sticky="w")
+  tkgrid(sdEntry, sticky="w")
+  tkgrid(sdFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("covar/multi cor"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  covVar <- tclVar(gettextRcmdr(" "))
+  covFrame <- tkframe(labelsFrame)
+  covEntry <- ttkentry(covFrame, width="8", textvariable=covVar)
+  tkgrid(labelRcmdr(covFrame, text=gettextRcmdr("n of covar."), fg="blue"), sticky="w")
+  tkgrid(covEntry, sticky="w")
+  tkgrid(covFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # paste(' stat, ') 
+    
+    con <- trim.blanks(tclvalue(conVar))
+    con <- paste(', ', con, '', sep="")
+    
+    sd <- trim.blanks(tclvalue(sdVar))
+    sd <- paste(', ', sd, '', sep="")
+    
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    
+    cor <- trim.blanks(tclvalue(corVar))
+    cor <- paste(', ', cor, '', sep="")
+    
+    cov <- trim.blanks(tclvalue(covVar))
+    cov <- paste(', ', cov, '', sep="")
+    
+    doItAndPrint(paste("ancova_to_d1(", tmt, con, sd, n1, n2, cor, cov,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="ancova_to_d1")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+
+# ancova to d2
+
+ancova_to_d2cmd <- function(){
+  initializeDialog(title=gettextRcmdr("ancova to mean diff (pooled SD)"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("adj tmt grp mean (ANCOVA)"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  conVar <- tclVar(gettextRcmdr(" "))
+  conFrame <- tkframe(labelsFrame)
+  conEntry <- ttkentry(conFrame, width="8", textvariable=conVar)
+  tkgrid(labelRcmdr(conFrame, text=gettextRcmdr("adj comp grp mean (ANCOVA)"), fg="blue"), sticky="w")
+  tkgrid(conEntry, sticky="w")
+  tkgrid(conFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  sdVar <- tclVar(gettextRcmdr(" "))
+  sdFrame <- tkframe(labelsFrame)
+  sdEntry <- ttkentry(sdFrame, width="8", textvariable=sdVar)
+  tkgrid(labelRcmdr(sdFrame, text=gettextRcmdr("pooled SD"), fg="blue"), sticky="w")
+  tkgrid(sdEntry, sticky="w")
+  tkgrid(sdFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("covar/multi cor"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  covVar <- tclVar(gettextRcmdr(" "))
+  covFrame <- tkframe(labelsFrame)
+  covEntry <- ttkentry(covFrame, width="8", textvariable=covVar)
+  tkgrid(labelRcmdr(covFrame, text=gettextRcmdr("n of covar"), fg="blue"), sticky="w")
+  tkgrid(covEntry, sticky="w")
+  tkgrid(covFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # paste(' stat, ') 
+    
+    con <- trim.blanks(tclvalue(conVar))
+    con <- paste(', ', con, '', sep="")
+    
+    sd <- trim.blanks(tclvalue(sdVar))
+    sd <- paste(', ', sd, '', sep="")
+    
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    
+    cor <- trim.blanks(tclvalue(corVar))
+    cor <- paste(', ', cor, '', sep="")
+    
+    cov <- trim.blanks(tclvalue(covVar))
+    cov <- paste(', ', cov, '', sep="")
+    
+    doItAndPrint(paste("ancova_to_d2(", tmt, con, sd, n1, n2, cor, cov,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="ancova_to_d2")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+# d to g
+
+d_to_gcmd <- function(){
+  initializeDialog(title=gettextRcmdr("d to unbiased g"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("d"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  conVar <- tclVar(gettextRcmdr(" "))
+  conFrame <- tkframe(labelsFrame)
+  conEntry <- ttkentry(conFrame, width="8", textvariable=conVar)
+  tkgrid(labelRcmdr(conFrame, text=gettextRcmdr("variance of d"), fg="blue"), sticky="w")
+  tkgrid(conEntry, sticky="w")
+  tkgrid(conFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+    
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   
+    
+    con <- trim.blanks(tclvalue(conVar))
+    con <- paste(', ', con, '', sep="")
+    
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+            
+    doItAndPrint(paste("d_to_g(", tmt, con, n1, n2,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="d_to_g")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+
+# f to d
+
+f_to_dcmd <- function(){
+  initializeDialog(title=gettextRcmdr("f-value to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("f-value"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+     
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+    
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   
+    
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+            
+    doItAndPrint(paste("f_to_d(", tmt, n1, n2,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="f_to_d")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+# f ancova to d
+
+f.ancova_to_dcmd <- function(){
+  initializeDialog(title=gettextRcmdr("f-value (ANCOVA) to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("adj tmt grp mean (ANCOVA)"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("covar/multi cor"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  covVar <- tclVar(gettextRcmdr(" "))
+  covFrame <- tkframe(labelsFrame)
+  covEntry <- ttkentry(covFrame, width="8", textvariable=covVar)
+  tkgrid(labelRcmdr(covFrame, text=gettextRcmdr("n of covar"), fg="blue"), sticky="w")
+  tkgrid(covEntry, sticky="w")
+  tkgrid(covFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # paste(' stat, ') 
+        
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    
+    cor <- trim.blanks(tclvalue(corVar))
+    cor <- paste(', ', cor, '', sep="")
+    
+    cov <- trim.blanks(tclvalue(covVar))
+    cov <- paste(', ', cov, '', sep="")
+    
+    doItAndPrint(paste("f.ancova_to_d(", tmt, n1, n2, cor, cov,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="f.ancova_to_d")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+
+# lor to d
+
+lor_to_dcmd <- function(){
+  initializeDialog(title=gettextRcmdr("log odds ratio to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("log odds ratio (LOR)"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+     
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("variance of LOR"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+        
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   
+    
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+               
+    doItAndPrint(paste("lor_to_d(", tmt, n1,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="lor_to_d")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+# mean to d
+
+mean_to_dcmd <- function(){
+  initializeDialog(title=gettextRcmdr("raw means and SDs to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("tmt grp mean"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  conVar <- tclVar(gettextRcmdr(" "))
+  conFrame <- tkframe(labelsFrame)
+  conEntry <- ttkentry(conFrame, width="8", textvariable=conVar)
+  tkgrid(labelRcmdr(conFrame, text=gettextRcmdr("comp grp mean"), fg="blue"), sticky="w")
+  tkgrid(conEntry, sticky="w")
+  tkgrid(conFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  sdVar <- tclVar(gettextRcmdr(" "))
+  sdFrame <- tkframe(labelsFrame)
+  sdEntry <- ttkentry(sdFrame, width="8", textvariable=sdVar)
+  tkgrid(labelRcmdr(sdFrame, text=gettextRcmdr("SD of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(sdEntry, sticky="w")
+  tkgrid(sdFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("SD of comp grp"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # paste(' stat, ') 
+    
+    con <- trim.blanks(tclvalue(conVar))
+    con <- paste(', ', con, '', sep="")
+    
+    sd <- trim.blanks(tclvalue(sdVar))
+    sd <- paste(', ', sd, '', sep="")
+    
+    cor <- trim.blanks(tclvalue(corVar))
+    cor <- paste(', ', cor, '', sep="")
+    
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    
+    
+   
+    
+    doItAndPrint(paste("mean_to_d(", tmt, con, sd, cor, n1, n2,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="mean_to_d")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+# mean to d II
+
+mean_to_d2cmd <- function(){
+  initializeDialog(title=gettextRcmdr("means with pooled SD to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("tmt grp mean"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  conVar <- tclVar(gettextRcmdr(" "))
+  conFrame <- tkframe(labelsFrame)
+  conEntry <- ttkentry(conFrame, width="8", textvariable=conVar)
+  tkgrid(labelRcmdr(conFrame, text=gettextRcmdr("comp grp mean"), fg="blue"), sticky="w")
+  tkgrid(conEntry, sticky="w")
+  tkgrid(conFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  sdVar <- tclVar(gettextRcmdr(" "))
+  sdFrame <- tkframe(labelsFrame)
+  sdEntry <- ttkentry(sdFrame, width="8", textvariable=sdVar)
+  tkgrid(labelRcmdr(sdFrame, text=gettextRcmdr("pooled SD"), fg="blue"), sticky="w")
+  tkgrid(sdEntry, sticky="w")
+  tkgrid(sdFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+    
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # paste(' stat, ') 
+    
+    con <- trim.blanks(tclvalue(conVar))
+    con <- paste(', ', con, '', sep="")
+    
+    sd <- trim.blanks(tclvalue(sdVar))
+    sd <- paste(', ', sd, '', sep="")
+      
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    doItAndPrint(paste("mean_to_d2(", tmt, con, sd, n1, n2,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="mean_to_d2")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+# p ancova to d
+
+p.ancova_to_d1cmd <- function(){
+  initializeDialog(title=gettextRcmdr("one-tailed p-value (ANCOVA) to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("p-value from an ANCOVA"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("covar/multi cor"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  covVar <- tclVar(gettextRcmdr(" "))
+  covFrame <- tkframe(labelsFrame)
+  covEntry <- ttkentry(covFrame, width="8", textvariable=covVar)
+  tkgrid(labelRcmdr(covFrame, text=gettextRcmdr("n of covar"), fg="blue"), sticky="w")
+  tkgrid(covEntry, sticky="w")
+  tkgrid(covFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # paste(' stat, ') 
+        
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    
+    cor <- trim.blanks(tclvalue(corVar))
+    cor <- paste(', ', cor, '', sep="")
+    
+    cov <- trim.blanks(tclvalue(covVar))
+    cov <- paste(', ', cov, '', sep="")
+    
+    doItAndPrint(paste("p.ancova_to_d1(", tmt, n1, n2, cor, cov,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="p.ancova_to_d1")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+# p ancova to d II
+
+p.ancova_to_d2cmd <- function(){
+  initializeDialog(title=gettextRcmdr("two-tailed p-value (ANCOVA) to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("two-tailed p-value from an ANCOVA"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("covar/multi cor"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  covVar <- tclVar(gettextRcmdr(" "))
+  covFrame <- tkframe(labelsFrame)
+  covEntry <- ttkentry(covFrame, width="8", textvariable=covVar)
+  tkgrid(labelRcmdr(covFrame, text=gettextRcmdr("n of covar"), fg="blue"), sticky="w")
+  tkgrid(covEntry, sticky="w")
+  tkgrid(covFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # paste(' stat, ') 
+        
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    
+    cor <- trim.blanks(tclvalue(corVar))
+    cor <- paste(', ', cor, '', sep="")
+    
+    cov <- trim.blanks(tclvalue(covVar))
+    cov <- paste(', ', cov, '', sep="")
+    
+    doItAndPrint(paste("p.ancova_to_d2(", tmt, n1, n2, cor, cov,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="p.ancova_to_d2")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+# p to d1
+
+p_to_d1cmd <- function(){
+  initializeDialog(title=gettextRcmdr("one-tailed p-value to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("p-value"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+     
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+    
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   
+    
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+            
+    doItAndPrint(paste("p_to_d1(", tmt, n1, n2,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="p_to_d1")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+# p to d2
+
+p_to_d2cmd <- function(){
+  initializeDialog(title=gettextRcmdr("two-tailed p-value to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("p-value"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+     
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+    
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   
+    
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+            
+    doItAndPrint(paste("p_to_d2(", tmt, n1, n2,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="p_to_d2")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+# prop to d
+
+prop_to_dcmd <- function(){
+  initializeDialog(title=gettextRcmdr("proportions to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("proportion one"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("proportion two"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # proportion 1 
+        
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    
+    cor <- trim.blanks(tclvalue(corVar)) #prop 2
+    cor <- paste(', ', cor, '', sep="")
+    
+      
+    doItAndPrint(paste("prop_to_d(", tmt, cor, n1, n2,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="prop_to_d")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+# prop to or
+
+prop_to_orcmd <- function(){
+  initializeDialog(title=gettextRcmdr("proportions to odds ratio"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("proportion one"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("total sample size for group A and B"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("total sample size for group C and D"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("proportion two"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # proportion 1 
+        
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    
+    cor <- trim.blanks(tclvalue(corVar)) #prop 2
+    cor <- paste(', ', cor, '', sep="")
+    
+      
+    doItAndPrint(paste("prop_to_or(", tmt, cor, n1, n2,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="prop_to_or")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+# pub bias
+
+PubBiascmd <- function(){
+  initializeDialog(title=gettextRcmdr("Publication bias"))
+  variablesFrame <- tkframe(top)
+  UpdateModelNumber()
+  modelName <- tclVar(paste("meandiff.", getRcmdr("modelNumber"), sep=""))
+  modelFrame <- tkframe(top)
+  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
+  #subsetBox()
+  onOK <- function(){ 
+    modelValue <- trim.blanks(tclvalue(modelName))
+    if (!is.valid.name(modelValue)){
+      UpdateModelNumber(-1)
+      errorCondition(recall=MeanDiffdcmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+      return()
+    }
+    closeDialog() 
+    meta <- ActiveDataSet()
+	  command <- paste(paste("PubBias(", meta,")", sep=""))
+    logger(paste(modelValue, " <- ", command, sep=""))
+    assign(modelValue, justDoIt(command), envir=.GlobalEnv)
+    doItAndPrint(modelValue)
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="PubBias", model=TRUE)
+  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for data:")), model, sticky="w")
+  tkgrid(modelFrame, sticky="w")
+  tkgrid.configure(helpButton, sticky="e")
+  tkgrid(variablesFrame, sticky="w")
+  #tkgrid(modelNFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=4, columns=2)
+}  
+  
+
+# r to d
+
+r_to_dcmd <- function(){
+  initializeDialog(title=gettextRcmdr("correlation to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+    
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("sample size"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("correlation value"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  onOK <- function(){
+    closeDialog()
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+           
+    cor <- trim.blanks(tclvalue(corVar)) #prop 2
+    cor <- paste(', ', cor, '', sep="")
+    
+      
+    doItAndPrint(paste("r_to_d(",cor, n1,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="r_to_d")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+# t ancova to d
+
+tt.ancova_to_dcmd <- function(){
+  initializeDialog(title=gettextRcmdr("t-value (ANCOVA) to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("t-value (ANCOVA)"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt grp"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp grp"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  corVar <- tclVar(gettextRcmdr(" "))
+  corFrame <- tkframe(labelsFrame)
+  corEntry <- ttkentry(corFrame, width="8", textvariable=corVar)
+  tkgrid(labelRcmdr(corFrame, text=gettextRcmdr("covar/multi cor"), fg="blue"), sticky="w")
+  tkgrid(corEntry, sticky="w")
+  tkgrid(corFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  covVar <- tclVar(gettextRcmdr(" "))
+  covFrame <- tkframe(labelsFrame)
+  covEntry <- ttkentry(covFrame, width="8", textvariable=covVar)
+  tkgrid(labelRcmdr(covFrame, text=gettextRcmdr("n of covar"), fg="blue"), sticky="w")
+  tkgrid(covEntry, sticky="w")
+  tkgrid(covFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # paste(' stat, ') 
+        
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+    
+    cor <- trim.blanks(tclvalue(corVar))
+    cor <- paste(', ', cor, '', sep="")
+    
+    cov <- trim.blanks(tclvalue(covVar))
+    cov <- paste(', ', cov, '', sep="")
+    
+    doItAndPrint(paste("tt.ancova_to_d(", tmt, n1, n2, cor, cov,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="tt.ancova_to_d")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+# t to d
+
+t_to_dcmd <- function(){
+  initializeDialog(title=gettextRcmdr("t-value to d"))
+  variablesFrame <- tkframe(top)
+  labelsFrame <- tkframe(top)
+  
+  tmtVar <- tclVar(gettextRcmdr(" "))
+  tmtFrame <- tkframe(labelsFrame)
+  tmtEntry <- ttkentry(tmtFrame, width="8", textvariable=tmtVar)
+  tkgrid(labelRcmdr(tmtFrame, text=gettextRcmdr("t-value"), fg="blue"), sticky="w")
+  tkgrid(tmtEntry, sticky="w")
+  tkgrid(tmtFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+      
+  n1Var <- tclVar(gettextRcmdr(" "))
+  n1Frame <- tkframe(labelsFrame)
+  n1Entry <- ttkentry(n1Frame, width="8", textvariable=n1Var)
+  tkgrid(labelRcmdr(n1Frame, text=gettextRcmdr("n of tmt group"), fg="blue"), sticky="w")
+  tkgrid(n1Entry, sticky="w")
+  tkgrid(n1Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+  
+  n2Var <- tclVar(gettextRcmdr(" "))
+  n2Frame <- tkframe(labelsFrame)
+  n2Entry <- ttkentry(n2Frame, width="8", textvariable=n2Var)
+  tkgrid(labelRcmdr(n2Frame, text=gettextRcmdr("n of comp group"), fg="blue"), sticky="w")
+  tkgrid(n2Entry, sticky="w")
+  tkgrid(n2Frame, labelRcmdr(labelsFrame, text="     "), sticky="w")
+         
+  onOK <- function(){
+    closeDialog()
+    tmt <- trim.blanks(tclvalue(tmtVar))
+    tmt <- paste (' ', tmt, '', sep="")   # proportion 1 
+        
+    n1 <- trim.blanks(tclvalue(n1Var))
+    n1 <- paste(', ', n1, '', sep="")
+    
+    n2 <- trim.blanks(tclvalue(n2Var))
+    n2 <- paste(', ', n2, '', sep="")
+      
+    doItAndPrint(paste("t_to_d(", tmt, n1, n2,")", sep="")) 
+    activateMenus()
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="t_to_d")
+  tkgrid(labelsFrame, sticky="w")
+  tkgrid(labelRcmdr(top, text=" "))
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=8, columns=2)
+}
+
+
+
 ##==== Calculate ES ====##
 
 
@@ -28,23 +1178,15 @@ r_from_chicmd <- function(){
   labelsFrame <- tkframe(top)
   statVar <- tclVar(gettextRcmdr(" "))
   statFrame <- tkframe(labelsFrame)
-  statEntry <- ttkentry(statFrame, width="25", textvariable=statVar)
-  statScroll <- ttkscrollbar(statFrame, orient="horizontal",
-  							command=function(...) tkxview(statEntry, ...))
-  tkconfigure(statEntry, xscrollcommand=function(...) tkset(statScroll, ...))
+  statEntry <- ttkentry(statFrame, width="8", textvariable=statVar)
   tkgrid(labelRcmdr(statFrame, text=gettextRcmdr("reported statistic"), fg="blue"), sticky="w")
   tkgrid(statEntry, sticky="w")
-  tkgrid(statScroll, sticky="ew")
   tkgrid(statFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   modnameVar <- tclVar(gettextRcmdr(" "))
   modnameFrame <- tkframe(labelsFrame)
-  modnameEntry <- ttkentry(modnameFrame, width="25", textvariable=modnameVar)
-  modnameScroll <- ttkscrollbar(modnameFrame, orient="horizontal",
-                             command=function(...) tkxview(modnameEntry, ...))
-  tkconfigure(modnameEntry, xscrollcommand=function(...) tkset(modnameScroll, ...))
+  modnameEntry <- ttkentry(modnameFrame, width="8", textvariable=modnameVar)
   tkgrid(labelRcmdr(modnameFrame, text=gettextRcmdr("sample size"), fg="blue"), sticky="w")
   tkgrid(modnameEntry, sticky="w")
-  tkgrid(modnameScroll, sticky="ew")
   tkgrid(modnameFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   onOK <- function(){
     closeDialog()
@@ -74,23 +1216,15 @@ r_from_dcmd <- function(){
   labelsFrame <- tkframe(top)
   statVar <- tclVar(gettextRcmdr(" "))
   statFrame <- tkframe(labelsFrame)
-  statEntry <- ttkentry(statFrame, width="25", textvariable=statVar)
-  statScroll <- ttkscrollbar(statFrame, orient="horizontal",
-  							command=function(...) tkxview(statEntry, ...))
-  tkconfigure(statEntry, xscrollcommand=function(...) tkset(statScroll, ...))
+  statEntry <- ttkentry(statFrame, width="8", textvariable=statVar)
   tkgrid(labelRcmdr(statFrame, text=gettextRcmdr("reported d statistic"), fg="blue"), sticky="w")
   tkgrid(statEntry, sticky="w")
-  tkgrid(statScroll, sticky="ew")
   tkgrid(statFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   modnameVar <- tclVar(gettextRcmdr(" "))
   modnameFrame <- tkframe(labelsFrame)
-  modnameEntry <- ttkentry(modnameFrame, width="25", textvariable=modnameVar)
-  modnameScroll <- ttkscrollbar(modnameFrame, orient="horizontal",
-                             command=function(...) tkxview(modnameEntry, ...))
-  tkconfigure(modnameEntry, xscrollcommand=function(...) tkset(modnameScroll, ...))
+  modnameEntry <- ttkentry(modnameFrame, width="8", textvariable=modnameVar)
   tkgrid(labelRcmdr(modnameFrame, text=gettextRcmdr("variance of d"), fg="blue"), sticky="w")
   tkgrid(modnameEntry, sticky="w")
-  tkgrid(modnameScroll, sticky="ew")
   tkgrid(modnameFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   onOK <- function(){
     closeDialog()
@@ -114,48 +1248,32 @@ r_from_dcmd <- function(){
 # r_from_d1 
 
 r_from_d1cmd <- function(){
-  initializeDialog(title=gettextRcmdr("r from mean difference II"))
+  initializeDialog(title=gettextRcmdr("r from d (n of both grps not same)"))
   variablesFrame <- tkframe(top)
   labelsFrame <- tkframe(top)
   statVar <- tclVar(gettextRcmdr(" "))
   statFrame <- tkframe(labelsFrame)
-  statEntry <- ttkentry(statFrame, width="25", textvariable=statVar)
-  statScroll <- ttkscrollbar(statFrame, orient="horizontal",
-  							command=function(...) tkxview(statEntry, ...))
-  tkconfigure(statEntry, xscrollcommand=function(...) tkset(statScroll, ...))
+  statEntry <- ttkentry(statFrame, width="8", textvariable=statVar)
   tkgrid(labelRcmdr(statFrame, text=gettextRcmdr("reported d statistic"), fg="blue"), sticky="w")
   tkgrid(statEntry, sticky="w")
-  tkgrid(statScroll, sticky="ew")
   tkgrid(statFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   modnameVar <- tclVar(gettextRcmdr(" "))
   modnameFrame <- tkframe(labelsFrame)
-  modnameEntry <- ttkentry(modnameFrame, width="25", textvariable=modnameVar)
-  modnameScroll <- ttkscrollbar(modnameFrame, orient="horizontal",
-                             command=function(...) tkxview(modnameEntry, ...))
-  tkconfigure(modnameEntry, xscrollcommand=function(...) tkset(modnameScroll, ...))
+  modnameEntry <- ttkentry(modnameFrame, width="8", textvariable=modnameVar)
   tkgrid(labelRcmdr(modnameFrame, text=gettextRcmdr("n of 1st group"), fg="blue"), sticky="w")
   tkgrid(modnameEntry, sticky="w")
-  tkgrid(modnameScroll, sticky="ew")
   tkgrid(modnameFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   ylimVar <- tclVar(gettextRcmdr(" "))
   ylimFrame <- tkframe(labelsFrame)
-  ylimEntry <- ttkentry(ylimFrame, width="25", textvariable=ylimVar)
-  ylimScroll <- ttkscrollbar(ylimFrame, orient="horizontal",
-                             command=function(...) tkxview(ylimEntry, ...))
-  tkconfigure(ylimEntry, xscrollcommand=function(...) tkset(ylimScroll, ...))
+  ylimEntry <- ttkentry(ylimFrame, width="8", textvariable=ylimVar)
   tkgrid(labelRcmdr(ylimFrame, text=gettextRcmdr("n of 2nd group"), fg="blue"), sticky="w")
   tkgrid(ylimEntry, sticky="w")
-  tkgrid(ylimScroll, sticky="ew")
   tkgrid(ylimFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   varVar <- tclVar(gettextRcmdr(" "))
   varFrame <- tkframe(labelsFrame)
-  varEntry <- ttkentry(varFrame, width="25", textvariable=varVar)
-  varScroll <- ttkscrollbar(varFrame, orient="horizontal",
-                             command=function(...) tkxview(varEntry, ...))
-  tkconfigure(varEntry, xscrollcommand=function(...) tkset(varScroll, ...))
+  varEntry <- ttkentry(varFrame, width="8", textvariable=varVar)
   tkgrid(labelRcmdr(varFrame, text=gettextRcmdr("variance of d"), fg="blue"), sticky="w")
   tkgrid(varEntry, sticky="w")
-  tkgrid(varScroll, sticky="ew")
   tkgrid(varFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   onOK <- function(){
     closeDialog()
@@ -187,23 +1305,15 @@ r_from_tcmd <- function(){
   labelsFrame <- tkframe(top)
   statVar <- tclVar(gettextRcmdr(" "))
   statFrame <- tkframe(labelsFrame)
-  statEntry <- ttkentry(statFrame, width="25", textvariable=statVar)
-  statScroll <- ttkscrollbar(statFrame, orient="horizontal",
-  							command=function(...) tkxview(statEntry, ...))
-  tkconfigure(statEntry, xscrollcommand=function(...) tkset(statScroll, ...))
+  statEntry <- ttkentry(statFrame, width="8", textvariable=statVar)
   tkgrid(labelRcmdr(statFrame, text=gettextRcmdr("reported statistic"), fg="blue"), sticky="w")
   tkgrid(statEntry, sticky="w")
-  tkgrid(statScroll, sticky="ew")
   tkgrid(statFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   modnameVar <- tclVar(gettextRcmdr(" "))
   modnameFrame <- tkframe(labelsFrame)
-  modnameEntry <- ttkentry(modnameFrame, width="25", textvariable=modnameVar)
-  modnameScroll <- ttkscrollbar(modnameFrame, orient="horizontal",
-                             command=function(...) tkxview(modnameEntry, ...))
-  tkconfigure(modnameEntry, xscrollcommand=function(...) tkset(modnameScroll, ...))
+  modnameEntry <- ttkentry(modnameFrame, width="8", textvariable=modnameVar)
   tkgrid(labelRcmdr(modnameFrame, text=gettextRcmdr("sample size"), fg="blue"), sticky="w")
   tkgrid(modnameEntry, sticky="w")
-  tkgrid(modnameScroll, sticky="ew")
   tkgrid(modnameFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   onOK <- function(){
     closeDialog()
@@ -223,7 +1333,7 @@ r_from_tcmd <- function(){
   dialogSuffix(rows=8, columns=2)
 }
 
- 
+  
 # r_to_z 
 
 r_to_zcmd <- function(){
@@ -232,7 +1342,7 @@ r_to_zcmd <- function(){
   labelsFrame <- tkframe(top)
   statVar <- tclVar(gettextRcmdr(" "))
   statFrame <- tkframe(labelsFrame)
-  statEntry <- ttkentry(statFrame, width="25", textvariable=statVar)
+  statEntry <- ttkentry(statFrame, width="8", textvariable=statVar)
   statScroll <- ttkscrollbar(statFrame, orient="horizontal",
   							command=function(...) tkxview(statEntry, ...))
   tkconfigure(statEntry, xscrollcommand=function(...) tkset(statScroll, ...))
@@ -267,7 +1377,7 @@ var_rcmd <- function(){
   labelsFrame <- tkframe(top)
   statVar <- tclVar(gettextRcmdr(" "))
   statFrame <- tkframe(labelsFrame)
-  statEntry <- ttkentry(statFrame, width="25", textvariable=statVar)
+  statEntry <- ttkentry(statFrame, width="8", textvariable=statVar)
   statScroll <- ttkscrollbar(statFrame, orient="horizontal",
   							command=function(...) tkxview(statEntry, ...))
   tkconfigure(statEntry, xscrollcommand=function(...) tkset(statScroll, ...))
@@ -277,7 +1387,7 @@ var_rcmd <- function(){
   tkgrid(statFrame, labelRcmdr(labelsFrame, text="     "), sticky="w")
   modnameVar <- tclVar(gettextRcmdr(" "))
   modnameFrame <- tkframe(labelsFrame)
-  modnameEntry <- ttkentry(modnameFrame, width="25", textvariable=modnameVar)
+  modnameEntry <- ttkentry(modnameFrame, width="8", textvariable=modnameVar)
   modnameScroll <- ttkscrollbar(modnameFrame, orient="horizontal",
                              command=function(...) tkxview(modnameEntry, ...))
   tkconfigure(modnameEntry, xscrollcommand=function(...) tkset(modnameScroll, ...))
@@ -313,7 +1423,7 @@ var_zcmd <- function(){
   labelsFrame <- tkframe(top)
   statVar <- tclVar(gettextRcmdr(" "))
   statFrame <- tkframe(labelsFrame)
-  statEntry <- ttkentry(statFrame, width="25", textvariable=statVar)
+  statEntry <- ttkentry(statFrame, width="8", textvariable=statVar)
   statScroll <- ttkscrollbar(statFrame, orient="horizontal",
   							command=function(...) tkxview(statEntry, ...))
   tkconfigure(statEntry, xscrollcommand=function(...) tkset(statScroll, ...))
