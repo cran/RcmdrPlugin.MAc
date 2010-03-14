@@ -7,8 +7,8 @@
 \tabular{ll}{
 Package: \tab RcmdrPlugin.MAc-package\cr
 Type: \tab Package\cr
-Version: \tab 1.0.6\cr
-Date: \tab 2010-03-12\cr
+Version: \tab 1.0.7\cr
+Date: \tab 2010-03-14\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
@@ -66,7 +66,7 @@ Maintainer: AC Del Re <acdelre@gmail.com>
 }  
 \keyword{ package }
 \seealso{
-\bold{MAc} package:  \url{http://CRAN.R-project.org/package=MAc}
-\bold{MAd} package:  \url{http://CRAN.R-project.org/package=MAd}
-\bold{MAd} package:  \url{http://CRAN.R-project.org/package=RcmdrPlugin.MAd}
+\bold{MAc} package:  \url{http://CRAN.R-project.org/package=MAc};
+\bold{MAd} package:  \url{http://CRAN.R-project.org/package=MAd};
+\bold{RcmdrPlugin.MAd} package:  \url{http://CRAN.R-project.org/package=RcmdrPlugin.MAd}
 }
