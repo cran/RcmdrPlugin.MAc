@@ -7,8 +7,8 @@
 \tabular{ll}{
 Package: \tab RcmdrPlugin.MAc-package\cr
 Type: \tab Package\cr
-Version: \tab 1.0.7\cr
-Date: \tab 2010-03-14\cr
+Version: \tab 1.0.9\cr
+Date: \tab 2010-03-19\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
@@ -18,7 +18,7 @@ LazyLoad: \tab yes\cr
 
 Maintainer: AC Del Re <acdelre@gmail.com>
 }
-\references{ AC Del Re & William T. Hoyt (2010). \emph{MAc: Meta-Analysis with Correlations}. R package version 1.0.6.
+\references{ AC Del Re & William T. Hoyt (2010). \emph{MAc: Meta-Analysis with Correlations}. R package version 1.0.7.
   http://CRAN.R-project.org/package=MAc
  
 }
@@ -27,7 +27,8 @@ Maintainer: AC Del Re <acdelre@gmail.com>
 
 # 1.  Begin the meta-analysis project using Excel (or a similar program) and be sure 
 #     to have a column for id (study id), r (correlation coefficients, and n (sample
-#     size). All other variables (i.e., moderators) can be named to ones liking.
+#     size). All other variables in the dataset (i.e., moderators) can be named to ones 
+#     liking.
 #     Note: this package requires the names of the study id, correlation coefficient,
 #     and sample size of the studies in the imported file to be named exactly as 
 #     stated above (id, r, n) or the functions will not output data. 

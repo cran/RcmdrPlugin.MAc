@@ -19,6 +19,97 @@ Commander()
 
 #== New Functions (3.07.10) ==##
 
+# facts 3.18.10
+
+factscmd <- function(){
+  dataSet <- activeDataSet()
+  initializeDialog(title=gettextRcmdr("Convert to Categorical Variable"))
+  variablesFrame <- tkframe(top)
+  .variable <- Variables()
+  xBox <- variableListBox(variablesFrame, .variable, selectmode="multiple",
+            title=gettextRcmdr("variable to convert to categorical (pick one)"))
+  newDataSetName <- tclVar(gettextRcmdr("<same as active data set>"))
+	dataSetNameFrame <- tkframe(top)
+	dataSetNameEntry <- ttkentry(dataSetNameFrame, width="25", textvariable=newDataSetName)
+	onOK <- function(){
+		newName <- trim.blanks(tclvalue(newDataSetName))
+		if (newName == gettextRcmdr("<same as active data set>")) newName <- ActiveDataSet()
+		if (!is.valid.name(newName)){
+			errorCondition(recall=factscmd,
+				message=paste('"', newName, '" ', gettextRcmdr("is not a valid name."), sep=""))
+			return()
+		}
+		if (is.element(newName, listDataSets())) {
+			if ("no" == tclvalue(checkReplace(newName, type=gettextRcmdr("Data set")))){
+				closeDialog()
+				RemoveRows()
+				return()
+			}
+		}
+    x <- getSelection(xBox)
+    closeDialog()
+       meta <- dataSet
+       #modelN <- as.character(tclvalue(modelNVariable)) 
+       #command <- paste("ComplData(", meta, ", ", paste(x, collapse=","),
+       #                 ", type= '",modelN,"')", sep="")
+       #command <- paste(newName, " <- ", ActiveDataSet(), "[", removeRows, ",]", sep="")
+		   #logger(command)
+		   #result <- justDoIt(command)
+       #command <- paste("facts(", meta, ",", meta, "$", x, ")", sep="")
+       command <- paste("facts(", meta, ",'", x, "')", sep="")
+       logger(paste(newName, " <- ", command, sep=""))
+       assign(newName, justDoIt(command), envir=.GlobalEnv)
+       doItAndPrint(newName)
+       tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="facts", model=TRUE)
+  tkgrid(labelRcmdr(dataSetNameFrame, text=gettextRcmdr("Name for new data set")), sticky="w")
+	tkgrid(dataSetNameEntry, sticky="w")
+	tkgrid(dataSetNameFrame, sticky="w")
+  tkgrid(labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
+  tkgrid(variablesFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  tkgrid.configure(helpButton, sticky="e")
+  dialogSuffix(rows=4, columns=2)
+}
+
+# weights
+
+Wifuncmd <- function(){
+  initializeDialog(title=gettextRcmdr("Add weights to dataset"))
+  variablesFrame <- tkframe(top)
+  UpdateModelNumber()
+  modelName <- tclVar(paste("df.", getRcmdr("modelNumber"), sep=""))
+  modelFrame <- tkframe(top)
+  model <- ttkentry(modelFrame, width="20", textvariable=modelName)
+  #subsetBox()
+  onOK <- function(){ 
+    modelValue <- trim.blanks(tclvalue(modelName))
+    if (!is.valid.name(modelValue)){
+      UpdateModelNumber(-1)
+      errorCondition(recall=MeanDiffdcmd, message=sprintf(gettextRcmdr('"%s" is not a valid name.'), modelValue))
+      return()
+    }
+    closeDialog() 
+    meta <- ActiveDataSet()
+	  command <- paste(paste("Wifun(", meta,")", sep=""))
+    logger(paste(modelValue, " <- ", command, sep=""))
+    assign(modelValue, justDoIt(command), envir=.GlobalEnv)
+    doItAndPrint(modelValue)
+    tkfocus(CommanderWindow())
+  }
+  OKCancelHelp(helpSubject="Wifun", model=TRUE)
+  tkgrid(labelRcmdr(modelFrame, text=gettextRcmdr("Enter name for data:")), model, sticky="w")
+  tkgrid(modelFrame, sticky="w")
+  tkgrid.configure(helpButton, sticky="e")
+  tkgrid(variablesFrame, sticky="w")
+  #tkgrid(modelNFrame, sticky="w")
+  tkgrid(buttonsFrame, stick="w")
+  dialogSuffix(rows=4, columns=2)
+}  
+  
+
+
 
 # ancova to d1
 
